@@ -1,0 +1,58 @@
+name: inpa_realmff
+rand_seed: 17
+use_writer: true
+
+# dataset settings
+dataset:
+  test:
+    name: Real-MFF                            # [Lytro|Real-MFF|MFI-WHU]
+    data_path: /data/Real-MFF/
+#    data_path: /data/MFI-WHU/
+#    data_path: /data/Lytro/
+    img_size: ~                               # [520, 520]|[433, 625]|[322, 521]
+    use_hflip: false
+    use_vflip: false
+    use_cflip: false
+    use_rot: false
+
+# path
+path:
+  save_path: ./result/repro/
+  writer_path: ./run/repro/
+  pretrain_path: ./pretrained_backbone/200000.pth
+  strict_load: true
+  resume_state: ~
+
+# network settings
+network:
+  score_map: blur2th                          # [blur2th|max_select|gradient|guassian1|guassian2|guided_filter|LBP|unet]
+  attention: None                             # [None|non-local|dual-attention]
+  fdb_map: optimize                           # [None|fixed|optimize|form1|form2]
+  mask_generator: 1                           # [1|2]
+  fusion_mode: add
+  fuse_type: weighted
+  pad: reflection
+  reg_noise_std: 0.005
+  multi_scale: 1                              # [1|4]
+  input: noise                                # [noise|source_img|fourier]
+  input_channel: 8                            # [8|2|32]
+  num_iters: 2000
+  scales_k: 4
+
+  loss:
+    percep_freq: 100
+    alpha: 1
+    beta: 0.05
+    gamma: 0
+    rate: 1                                   # [1|0.5]
+
+# testing parameters
+test:
+  num_iters: 100
+  batch_size: 1
+  lr: 0.01
+  print_freq: 100
+  save_img: true
+  save_freq: 100
+
+

@@ -1,0 +1,57 @@
+name: inpa_backbone
+rand_seed: 17
+
+# dataset settings
+dataset:
+  train:
+    name: NYUDF                               # [Lytro|Real-MFF|MFI-WHU|NYUDF]
+    data_path: /data/MFIF-SYNDoF/
+    img_size: [256, 256]                      # [520, 520]|[433, 625]|[322, 521]
+    use_hflip: true
+    use_vflip: true
+    use_cflip: true
+    use_rot: false
+
+  val:
+    name:  NYUDF                              # [Lytro|Real-MFF|MFI-WHU|NYUDF]
+    data_path: /data/MFIF-SYNDoF/
+    img_size: ~                               # [520, 520]|[433, 625]|[322, 521]
+
+# path
+path:
+  save_path: ./experiment/backbone/
+  writer_path: ./run/backbone/
+  pretrain_path: ~
+  strict_load: true
+  resume_state: ~
+
+# network settings
+network:
+  score_map: blur2th                          # [blur2th|max_select|gradient|guassian|guided_filter]
+  attention: None                             # [None|non-local|dual-attention]
+  mask_generator: 1                           # [1|2]
+  fusion_mode: add
+  pad: reflection
+  reg_noise_std: 0.001
+  multi_scale: 4                              # [1|4]
+
+  loss:
+    percep_freq: 100
+    alpha: 20
+    beta: 0.05
+    rate: 1                                   # [1|0.5]
+
+# training parameters
+train:
+  num_iters: 200000
+  batch_size: 8
+  lr: 0.0001
+  print_freq: 500
+
+val:
+  save_freq: 5000
+  save_img: true
+
+dist:
+  dist_backend: nccl
+  dist_port: 31400
